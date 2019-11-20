@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SeasonDisplay from './SeasonDisplay';
+import LoadingScreen from './LoadingScreen';
+
+import './App.css';
 
 class App extends React.Component {
   // Avoid doing data loading at the constructor, best if done inside componentDidMount()
@@ -17,7 +20,9 @@ class App extends React.Component {
 
   // Best place to do data-loading
   componentDidMount() {
-    console.log('App component rendered to the screen with componentDidMount()');
+    console.log(
+      'App component rendered to the screen with componentDidMount()'
+    );
 
     // First argument: what happens if executed successfully
     // Second argument: what happens if it gives a error
@@ -40,11 +45,7 @@ class App extends React.Component {
   // Good place to do cleanup (non-react stuff)
   //   componentWillUnmount() {}
 
-  // Required method for class based components
-  // Avoid doing anything besides returning JSX
-  render() {
-    console.log('App component rendered by render()');
-
+  renderContent() {
     if (this.state.errorMessage && !this.state.lat) {
       return <div>Error: {this.state.errorMessage}</div>;
     }
@@ -53,7 +54,15 @@ class App extends React.Component {
       return <SeasonDisplay lat={this.state.lat} />;
     }
 
-    return <div>Loading your location, please wait...</div>;
+    return <LoadingScreen message="Please accept our location request." />;
+  }
+
+  // Required method for class based components
+  // Avoid doing anything besides returning JSX
+  render() {
+    console.log('App component rendered by render()');
+
+    return <div className="border-red">{this.renderContent()}</div>;
   }
 }
 
