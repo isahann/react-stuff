@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 import VideoList from './VideoList';
 
 class App extends React.Component {
-  state = { videos: [] };
+  state = { videos: [], selectedVideo: null };
 
   onTermSubmit = async term => {
     console.log(term);
@@ -20,12 +20,21 @@ class App extends React.Component {
     this.setState({ videos: response.data.items });
   };
 
+  onVideoSelect = video => {
+    // console.log(video);
+
+    this.setState({ selectedVideo: video });
+  };
+
   render() {
     return (
       <div className="ui container" style={{ marginTop: '10px' }}>
-        <SearchBar onFormSubmit={this.onTermSubmit} />I have{' '}
-        {this.state.videos.length} videos.
-        <VideoList videos={this.state.videos} />
+        <SearchBar onFormSubmit={this.onTermSubmit} />
+        {/* I have {this.state.videos.length} videos. */}
+        <VideoList
+          onVideoSelect={this.onVideoSelect}
+          videos={this.state.videos}
+        />
       </div>
     );
   }
