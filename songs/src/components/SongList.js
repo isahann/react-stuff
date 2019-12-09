@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+// When the file is not specified, webpack automatically imports index.js
+// If its an named export, you need the curly braces
 import { selectSong } from '../actions';
 
 class SongList extends React.Component {
@@ -29,7 +31,6 @@ class SongList extends React.Component {
 
 // Sets up the state of redux store inside the props of this component
 const mapStateToProps = state => {
-  console.log(state);
   return { songs: state.songs };
 };
 
