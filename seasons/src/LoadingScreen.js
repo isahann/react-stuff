@@ -8,7 +8,7 @@ const LoadingScreen = props => {
   );
 };
 
-// If LoadingScreen gets created without a message propertie, it will replace with this default value.
+// If LoadingScreen gets created without a message property, it will replace with this default value.
 LoadingScreen.defaultProps = {
   message: 'Loading, please wait...'
 };
