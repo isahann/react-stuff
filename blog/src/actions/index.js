@@ -1,6 +1,18 @@
 import _ from 'lodash';
 import jsonPlaceholder from '../apis/jsonPlaceholder';
 
+export const fetchPostsAndUsers = () => async (dispatch, getState) => {
+  console.log('going to fetch posts');
+  await dispatch(fetchPosts());
+  console.log('fetched posts');
+
+  console.log('going to fetch users id');
+  // The _.map returns an array with only the 'userId' property from the posts
+  // and the _.uniq function remove duplicates
+  const userIds = _.uniq(_.map(getState().posts, 'userId'));
+  userIds.forEach(userId => dispatch(fetchUser(userId)));
+};
+
 export const fetchPosts = () => async (dispatch, getState) => {
   // Bad approach, breaks the rules of an action creator and causes an error
   // Actions must be plain objects, we need to use MIDDLEWARES for async actions
@@ -25,3 +37,15 @@ export const fetchUser = id => async dispatch => {
     payload: response.data
   });
 };
+
+// export const fetchUser = id => dispatch => {
+//   _fetchUser(id, dispatch);
+// };
+// const _fetchUser = _.memoize(async (id, dispatch) => {
+//   const response = await jsonPlaceholder.get(`/users/${id}`);
+
+//   dispatch({
+//     type: 'FETCH_USER',
+//     payload: response.data
+//   });
+// });
