@@ -1,6 +1,9 @@
 import _ from 'lodash';
 import jsonPlaceholder from '../apis/jsonPlaceholder';
 
+// We will use this action to fetch posts and the list of users inside the posts.
+// we could make api requests inside this function, but we could use the other
+// fetchUser and fetchPosts in other places.
 export const fetchPostsAndUsers = () => async (dispatch, getState) => {
   // console.log('going to fetch posts');
   await dispatch(fetchPosts());
@@ -14,7 +17,7 @@ export const fetchPostsAndUsers = () => async (dispatch, getState) => {
   // userIds.forEach(userId => dispatch(fetchUser(userId)));
 
   // Chain allows to manipulate a single collection with many methods as we want
-  // *we need to call value() at the end to execute the methods
+  // obs: we need to call value() at the end to execute the methods
   _.chain(getState().posts)
     .map('userId')
     .uniq()
@@ -47,6 +50,8 @@ export const fetchUser = id => async dispatch => {
   });
 };
 
+// Example using memoize.
+ 
 // export const fetchUser = id => dispatch => {
 //   _fetchUser(id, dispatch);
 // };
