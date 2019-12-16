@@ -2,15 +2,24 @@ import _ from 'lodash';
 import jsonPlaceholder from '../apis/jsonPlaceholder';
 
 export const fetchPostsAndUsers = () => async (dispatch, getState) => {
-  console.log('going to fetch posts');
+  // console.log('going to fetch posts');
   await dispatch(fetchPosts());
-  console.log('fetched posts');
+  // console.log('fetched posts');
 
-  console.log('going to fetch users id');
+  // console.log('going to fetch users id');
   // The _.map returns an array with only the 'userId' property from the posts
   // and the _.uniq function remove duplicates
-  const userIds = _.uniq(_.map(getState().posts, 'userId'));
-  userIds.forEach(userId => dispatch(fetchUser(userId)));
+
+  // const userIds = _.uniq(_.map(getState().posts, 'userId'));
+  // userIds.forEach(userId => dispatch(fetchUser(userId)));
+
+  // Chain allows to manipulate a single collection with many methods as we want
+  // *we need to call value() at the end to execute the methods
+  _.chain(getState().posts)
+    .map('userId')
+    .uniq()
+    .forEach(userId => dispatch(fetchUser(userId)))
+    .value();
 };
 
 export const fetchPosts = () => async (dispatch, getState) => {
